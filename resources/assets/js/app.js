@@ -20,6 +20,17 @@ Vue.use(Buefy);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-// const app = new Vue({
-//     el: '#app'
-// });
+const app = new Vue({
+    el: '#app',
+    data: {}
+});
+
+/** 
+ * Show Navigation on Burger button Click
+*/
+
+$(document).ready(function(){
+    $('div.burger').click(function(e) {
+        $('div.navbar-menu').toggleClass('is-active');
+    })
+});

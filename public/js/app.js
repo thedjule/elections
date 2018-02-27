@@ -1063,9 +1063,20 @@ Vue.use(__WEBPACK_IMPORTED_MODULE_0_buefy___default.a);
 
 // Vue.component('example-component', require('./components/ExampleComponent.vue'));
 
-// const app = new Vue({
-//     el: '#app'
-// });
+var app = new Vue({
+  el: '#app',
+  data: {}
+});
+
+/** 
+ * Show Navigation on Burger button Click
+*/
+
+$(document).ready(function () {
+  $('div.burger').click(function (e) {
+    $('div.navbar-menu').toggleClass('is-active');
+  });
+});
 
 /***/ }),
 /* 12 */

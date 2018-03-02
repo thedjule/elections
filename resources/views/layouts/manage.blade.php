@@ -8,7 +8,7 @@
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>{{ config('app.name', 'Elections') }}</title>
+    <title>{{ config('app.name', 'Elections Management') }}</title>
 
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -18,12 +18,20 @@
         @include('_includes.navigation.main')
         <section class="section">
             <div class="container">
-                @yield('content')
+                <div class="columns">
+                    <div class="column is-one-quarter">
+                        @include('_includes.navigation.manage')
+                    </div>
+                    <div class="column is-three-quarters">
+                        @yield('content')
+                    </div>
+                </div>
             </div>
         </section>
     </div>
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
+    @yield('scripts')
 </body>
 </html>

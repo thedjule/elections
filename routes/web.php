@@ -17,4 +17,11 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|administrator'], function () {
+    Route::get('/', ['as' => 'manage', 'uses' => 'ManageController@index']);
+    Route::get('/dashboard', ['as' => 'manage.dashboard', 'uses' => 'ManageController@dashboard']);
+    Route::resource('/users', 'UserController');
+    Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
+    Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
+});
 Route::get('/home', 'HomeController@index')->name('home');

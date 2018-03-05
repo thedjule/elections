@@ -18,8 +18,8 @@
             Municipalities
         </p>
         <ul class="menu-list">
-            <li><a>Manage Municipalities</a></li>
-            <li><a>Manage Polling Stations</a></li>
+            <li><a href="{{route('municipalities.index')}}">Manage Municipalities</a></li>
+            <li><a href="{{route('polling-stations.index')}}">Manage Polling Stations</a></li>
         </ul>
         <p class="menu-label">
             Elections

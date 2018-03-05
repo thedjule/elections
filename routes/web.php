@@ -17,11 +17,13 @@ Route::get('/', function () {
 
 Auth::routes();
 
-Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|administrator'], function () {
+Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|administrator|user'], function () {
     Route::get('/', ['as' => 'manage', 'uses' => 'ManageController@index']);
     Route::get('/dashboard', ['as' => 'manage.dashboard', 'uses' => 'ManageController@dashboard']);
     Route::resource('/users', 'UserController');
     Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
     Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
+    Route::resource('/municipalities', 'DefaultMunicipalityController');
+    Route::resource('/polling-stations', 'DefaultPollingStationController');
 });
 Route::get('/home', 'HomeController@index')->name('home');

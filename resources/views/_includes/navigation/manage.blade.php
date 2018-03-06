@@ -25,9 +25,9 @@
             Elections
         </p>
         <ul class="menu-list">
-            <li><a>Manage Elections</a></li>
-            <li><a>Election Types</a></li>
-            <li><a>Electoral Lists</a></li>
+            <li><a href="{{route('elections.index')}}">Manage Elections</a></li>
+            <li><a href="{{route('electionTypes.index')}}">Election Types</a></li>
+            <li><a href="{{route('electoral-lists.index')}}">Electoral Lists</a></li>
         </ul>
     </aside>
 </div>

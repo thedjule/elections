@@ -25,5 +25,10 @@ Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|ad
     Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
     Route::resource('/municipalities', 'DefaultMunicipalityController');
     Route::resource('/polling-stations', 'DefaultPollingStationController');
+    Route::resource('/elections', 'ElectionController');
+    Route::resource('/elections/municipalities', 'MunicipalityController');
+    Route::resource('/elections/polling-stations', 'PollingStationController');
+    Route::resource('/electionTypes', 'ElectionTypeController');
+    Route::resource('/electoral-lists', 'ElectoralListController');
 });
 Route::get('/home', 'HomeController@index')->name('home');

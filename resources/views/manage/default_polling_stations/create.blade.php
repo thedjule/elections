@@ -8,7 +8,7 @@
 
     <div class="columns">
         <div class="column">
-            <form action="{{route('polling-stations.store')}}" method="post">
+            <form action="{{route('default-polling-stations.store')}}" method="post">
 
                 @csrf
 

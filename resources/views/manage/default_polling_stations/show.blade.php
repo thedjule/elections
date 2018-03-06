@@ -10,7 +10,7 @@
         <!-- Right side -->
         <div class="level-right">
             <div class="level-item">
-                <a class="button is-info" href="{{route('polling-stations.edit', $pollingStation->id)}}">
+                <a class="button is-info" href="{{route('default-polling-stations.edit', $pollingStation->id)}}">
                     <span class="icon">
                         <i class="fa fa-edit"></i>
                     </span>

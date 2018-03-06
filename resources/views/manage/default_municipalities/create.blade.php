@@ -8,7 +8,7 @@
 
     <div class="columns">
         <div class="column">
-            <form action="{{route('municipalities.store')}}" method="post">
+            <form action="{{route('default-municipalities.store')}}" method="post">
 
                 @csrf
 

@@ -53,9 +53,9 @@ class DefaultPollingStationController extends Controller
 
         if($pollingStation->save()){
             Session::flash('success', 'Polling Stations has been successfully added');
-            return redirect()->route('polling-stations.index');
+            return redirect()->route('default-polling-stations.index');
         } else {
-            return redirect()->route('polling-stations.create');
+            return redirect()->route('default-polling-stations.create');
         }
     }
 
@@ -106,9 +106,9 @@ class DefaultPollingStationController extends Controller
 
         if($pollingStation->save()){
             Session::flash('success', 'Polling Stations has been successfully edited');
-            return redirect()->route('polling-stations.show', $pollingStation->id);
+            return redirect()->route('default-polling-stations.show', $pollingStation->id);
         } else {
-            return redirect()->route('polling-stations.edit', $pollingStation->id);
+            return redirect()->route('default-polling-stations.edit', $pollingStation->id);
         }
     }
 

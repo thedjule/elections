@@ -47,9 +47,9 @@ class DefaultMunicipalityController extends Controller
 
         if($municipality->save()){
             Session::flash('success', 'Polling Stations has been successfully added');
-            return redirect()->route('municipalities.index');
+            return redirect()->route('default-municipalities.index');
         } else {
-            return redirect()->route('municipalities.create');
+            return redirect()->route('default-municipalities.create');
         }
     }
 
@@ -96,9 +96,9 @@ class DefaultMunicipalityController extends Controller
 
         if($municipality->save()){
             Session::flash('success', 'Polling Stations has been successfully edited');
-            return redirect()->route('municipalities.show', $municipality->id);
+            return redirect()->route('default-municipalities.show', $municipality->id);
         } else {
-            return redirect()->route('municipalities.edit', $municipality->id);
+            return redirect()->route('default-municipalities.edit', $municipality->id);
         }
     }
 

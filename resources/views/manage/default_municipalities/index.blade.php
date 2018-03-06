@@ -11,7 +11,7 @@
         <!-- Right side -->
         <div class="level-right">
             <div class="level-item">
-                <a class="button is-success" href="{{route('municipalities.create')}}">
+                <a class="button is-success" href="{{route('default-municipalities.create')}}">
                     <span class="icon">
                         <i class="fa fa-plus-circle"></i>
                     </span>
@@ -31,10 +31,10 @@
         <tbody>
         @foreach($municipalities as $municipality)
             <tr>
-                <td><small><strong><a href="{{route('municipalities.show', $municipality->id)}}">{{$municipality->name}}</a></strong></small></td>
+                <td><small><strong><a href="{{route('default-municipalities.show', $municipality->id)}}">{{$municipality->name}}</a></strong></small></td>
                 <td>
                     <div class="is-right buttons">
-                        <a href="{{route('municipalities.edit', $municipality->id)}}" class="button is-info is-small">
+                        <a href="{{route('default-municipalities.edit', $municipality->id)}}" class="button is-info is-small">
                             <span class="icon">
                                 <i class="fa fa-edit"></i>
                             </span>
@@ -61,7 +61,7 @@
             methods: {
                 deleteMunicipality: function(id) {
                     let app = this
-                    axios.delete('/manage/municipalities/' + id)
+                    axios.delete('/manage/default-municipalities/' + id)
                         .then(function (response) {
                             location.reload()
                         })

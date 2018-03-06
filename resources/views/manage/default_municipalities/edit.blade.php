@@ -8,7 +8,7 @@
 
     <div class="columns">
         <div class="column">
-            <form action="{{route('municipalities.update', $municipality->id)}}" method="post">
+            <form action="{{route('default-municipalities.update', $municipality->id)}}" method="post">
                 @method('PUT')
                 @csrf
 

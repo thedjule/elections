@@ -8,7 +8,7 @@
 
     <div class="columns">
         <div class="column">
-            <form action="{{route('polling-stations.update', $pollingStation->id)}}" method="post">
+            <form action="{{route('default-polling-stations.update', $pollingStation->id)}}" method="post">
                 @method('PUT')
                 @csrf
 

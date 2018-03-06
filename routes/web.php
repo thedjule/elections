@@ -23,11 +23,11 @@ Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|ad
     Route::resource('/users', 'UserController');
     Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
     Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
-    Route::resource('/municipalities', 'DefaultMunicipalityController');
-    Route::resource('/polling-stations', 'DefaultPollingStationController');
+    Route::resource('/default-municipalities', 'DefaultMunicipalityController');
+    Route::resource('/default-polling-stations', 'DefaultPollingStationController');
     Route::resource('/elections', 'ElectionController');
-    Route::resource('/elections/municipalities', 'MunicipalityController');
-    Route::resource('/elections/polling-stations', 'PollingStationController');
+    Route::resource('/municipalities', 'MunicipalityController');
+    Route::resource('/polling-stations', 'PollingStationController');
     Route::resource('/electionTypes', 'ElectionTypeController');
     Route::resource('/electoral-lists', 'ElectoralListController');
 });

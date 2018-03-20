@@ -24,7 +24,7 @@
     <table class="table is-fullwidth is-striped is-hoverable is-narrow">
         <thead>
         <tr>
-            <th>Number</th>
+            <th></th>
             <th>Name</th>
             <th>Elections</th>
             <th></th>
@@ -33,9 +33,9 @@
         <tbody>
         @foreach($electoralLists as $electoralList)
             <tr>
-                <td><small><strong>{{$electoralList->number}}</strong></small></td>
-                <td><small><strong>{{$electoralList->name}}</strong></small></td>
-                <td><small><strong>{{$electoralList->election->name}}</strong></small></td>
+                <td><small>{{$electoralList->number}}</small></td>
+                <td><small>{{$electoralList->name}}</small></td>
+                <td><small><a href="{{route('elections.show', $electoralList->election->id)}}">{{$electoralList->election->name}}</a></small></td>
                 <td>
                     <a href="{{route('electoral-lists.edit', $electoralList->id)}}" class="button is-info is-small">
                         <span class="icon">

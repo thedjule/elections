@@ -42,6 +42,29 @@
         <p>
             <strong>Type:</strong> {{ $election->electionType->name }}
         </p>
+        <h3>Municipalities:</h3>
     </div>
 
+    <div class="field is-grouped is-grouped-multiline m-b-30">
+        @foreach($election->municipalities as $municipality)
+            <div class="control">
+                <div class="tags has-addons">
+                    <a class="tag" href="{{route('municipalities.show', $municipality->id)}}">{{ $municipality->name }}</a>
+                    @if($municipality->user_id)
+                        <a class="tag is-success" href="{{route('users.show', $municipality->user_id)}}">{{ $municipality->user->name }}</a>
+                    @else
+                        <a class="tag is-warning">No User</a>
+                    @endif
+                    <a class="tag is-info" href="{{route('municipalities.edit', $municipality->id)}}">Edit</a>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
+    <div class="content">
+        <h3>Electoral Lists:</h3>
+        @foreach($election->electoralLists as $electoralList)
+            <p><small>{{ $electoralList->number }}. {{ $electoralList->name }}</small></p>
+        @endforeach
+    </div>
 @endsection

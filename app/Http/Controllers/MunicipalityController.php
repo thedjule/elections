@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Municipality;
+use App\User;
 use Illuminate\Http\Request;
+use Session;
 
 class MunicipalityController extends Controller
 {
@@ -45,7 +48,8 @@ class MunicipalityController extends Controller
      */
     public function show($id)
     {
-        //
+        $municipality = Municipality::findOrFail($id);
+        return view('manage.elections.municipalities.show', compact('municipality'));
     }
 
     /**
@@ -56,7 +60,15 @@ class MunicipalityController extends Controller
      */
     public function edit($id)
     {
-        //
+        $municipality = Municipality::findOrFail($id);
+
+        $users = User::whereHas('roles', function($q){
+            $q->where('name', 'administrator');
+        })->get();
+
+        if(!$userId = $municipality->user_id) $userId = '-1';
+
+        return view('manage.elections.municipalities.edit', compact('municipality', 'users', 'userId'));
     }
 
     /**
@@ -68,7 +80,15 @@ class MunicipalityController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $municipality = Municipality::findOrFail($id);
+        $municipality->user_id = $request->user;
+
+        if($municipality->save()){
+            Session::flash('success', 'Municipality has been successfully edited');
+            return redirect()->route('elections.show', $municipality->election_id);
+        } else {
+            return redirect()->route('municipalities.edit', $municipality->id);
+        }
     }
 
     /**

@@ -50,6 +50,14 @@ class PollingStation extends Model
 
     public function electoralLists()
     {
-        return $this->belongsToMany('App\ElectoralList');
+        return $this->belongsToMany('App\ElectoralList')->withPivot('votes');
+    }
+
+    /**
+     * Get the User that is assigned to the Polling Station.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
     }
 }

@@ -10,10 +10,10 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', ['as' => 'results', 'uses' => 'ResultsController@index']);
+Route::get('/results', ['as' => 'results', 'uses' => 'ResultsController@index']);
+Route::get('/results/{id}', ['as' => 'results-elections', 'uses' => 'ResultsController@showElection']);
+Route::get('/results/elections/{id}', ['as' => 'results-municipality', 'uses' => 'ResultsController@showMunicipality']);
 
 Auth::routes();
 
@@ -28,7 +28,9 @@ Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|ad
     Route::resource('/elections', 'ElectionController');
     Route::resource('/municipalities', 'MunicipalityController');
     Route::resource('/polling-stations', 'PollingStationController');
+    Route::put('/polling-stations/{id}/add-user', 'PollingStationController@addUser')->name('polling-stations.add-user');
     Route::resource('/electionTypes', 'ElectionTypeController');
     Route::resource('/electoral-lists', 'ElectoralListController');
 });
+
 Route::get('/home', 'HomeController@index')->name('home');

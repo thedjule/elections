@@ -27,6 +27,7 @@
             <th>Name</th>
             <th>Type</th>
             <th>Status</th>
+            <th>Municipality</th>
             <th>Date Created</th>
             <th></th>
         </tr>
@@ -34,7 +35,7 @@
         <tbody>
         @foreach($elections as $election)
             <tr>
-                <td><small><strong>{{ $election->name }}</strong></small></td>
+                <td><small><strong><a href="{{route('elections.show', $election->id)}}">{{ $election->name }}</a></strong></small></td>
                 <td><small><strong>{{ $election->electionType->name }}</strong></small></td>
                 <td>
                     <small>
@@ -53,13 +54,28 @@
                         </strong>
                     </small>
                 </td>
-                <td><small>{{$election->created_at->format('j. M, Y. H:i:s')}}</small></td>
+                <td><small>
+                        @if(count($election->municipalities) > 1)
+                            All
+                        @else
+                            @foreach($election->municipalities as $municipality)
+                                {{ $municipality->name }}
+                            @endforeach
+                        @endif
+                    </small></td>
+                <td><small>{{ $election->created_at->format('j. M, Y. H:i:s') }}</small></td>
                 <td>
                     <a href="{{route('elections.edit', $election->id)}}" class="button is-info is-small">
                         <span class="icon">
                             <i class="fa fa-edit"></i>
                         </span>
                         <span>Edit</span>
+                    </a>
+                    <a href="{{route('results-elections', $election->id)}}" class="button is-link is-small">
+                        <span>Results</span>
+                        <span class="icon">
+                            <i class="fa fa-angle-double-right"></i>
+                        </span>
                     </a>
                 </td>
             </tr>

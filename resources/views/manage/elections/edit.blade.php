@@ -74,6 +74,17 @@
                 </div>
 
                 <div class="field">
+                    <label class="label"><small>Municipalities:</small></label>
+                    <ul class="municipality-col">
+                        @foreach($municipalities as $municipality)
+                            <li><b-checkbox class="m-r-10" native-value="{{ $municipality->name }}" v-model="municipalities">{{ $municipality->name }}</b-checkbox></li>
+                        @endforeach
+                    </ul>
+                </div>
+
+                <input type="hidden" name="municipalities" :value="municipalities">
+
+                <div class="field">
                     <p class="control">
                         <button type="submit" class="button is-primary">
                             <span>Edit Elections</span>
@@ -83,4 +94,15 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                municipalities: {!!$election->municipalities->pluck('name')!!}
+            }
+        })
+    </script>
 @endsection

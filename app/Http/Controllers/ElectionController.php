@@ -2,8 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\DefaultMunicipality;
+use App\DefaultPollingStation;
 use App\Election;
 use App\ElectionType;
+use App\Municipality;
+use App\PollingStation;
 use Illuminate\Http\Request;
 use Session;
 
@@ -28,7 +32,8 @@ class ElectionController extends Controller
     public function create()
     {
         $electionTypes = ElectionType::all();
-        return view('manage.elections.create', compact('electionTypes'));
+        $municipalities = DefaultMunicipality::all();
+        return view('manage.elections.create', compact('electionTypes', 'municipalities'));
     }
 
     /**
@@ -42,7 +47,8 @@ class ElectionController extends Controller
         $this->validateWith([
             'name' => 'required|min:3|max:255',
             'status' => 'required|numeric',
-            'electionType' => 'required|numeric'
+            'electionType' => 'required|numeric',
+            'municipalities' => 'required'
         ]);
 
         $election = new Election();
@@ -51,6 +57,31 @@ class ElectionController extends Controller
         $election->election_type_id = $request->electionType;
 
         if($election->save()){
+            if(!empty($request->municipalities)) {
+                $municipalities = [];
+                $requestMunicipalities = explode(',', $request->municipalities);
+
+                foreach ($requestMunicipalities as $value) {
+                    $name = explode(':', $value);
+                    array_push($municipalities, new Municipality(['name' => $name[1]]));
+                }
+
+                $election->municipalities()->saveMany($municipalities);
+
+                foreach ($election->municipalities as $key => $municipality) {
+                    $municipalityId = explode(':', $requestMunicipalities[$key]);
+                    $defaultPollingStations = DefaultPollingStation::where('default_municipality_id', $municipalityId[0])->get();
+                    if(!empty($defaultPollingStations)) {
+                        $pollingStations = [];
+
+                        foreach ($defaultPollingStations as $defaultPollingStation) {
+                            array_push($pollingStations, new PollingStation(['name' => $defaultPollingStation->name, 'registered_check' => $defaultPollingStation->registered]));
+                        }
+
+                        $municipality->pollingStations()->saveMany($pollingStations);
+                    }
+                }
+            }
             Session::flash('success', 'Elections have been successfully added');
             return redirect()->route('elections.index');
         } else {
@@ -78,9 +109,10 @@ class ElectionController extends Controller
      */
     public function edit($id)
     {
-        $election = Election::findOrFail($id);
+        $election = Election::where('id', $id)->with('municipalities')->first();
         $electionTypes = ElectionType::all();
-        return view('manage.elections.edit', compact('election', 'electionTypes'));
+        $municipalities = DefaultMunicipality::all();
+        return view('manage.elections.edit', compact('election', 'electionTypes', 'municipalities'));
     }
 
     /**
@@ -95,15 +127,53 @@ class ElectionController extends Controller
         $this->validateWith([
             'name' => 'required|min:3|max:255',
             'status' => 'required|numeric',
-            'electionType' => 'required|numeric'
+            'electionType' => 'required|numeric',
+            'municipalities' => 'required'
         ]);
 
-        $election = Election::findOrFail($id);
+        $election = Election::where('id', $id)->with('municipalities')->first();
         $election->name = $request->name;
         $election->status = $request->status;
         $election->election_type_id = $request->electionType;
 
         if($election->save()){
+            $requestMunicipalities = explode(',', $request->municipalities);
+
+            if(!empty($requestMunicipalities)) {
+                $electionMunicipalities = [];
+                foreach ($election->municipalities as $municipality) {
+                    $electionMunicipalities += [$municipality->id => $municipality->name];
+                }
+
+                $municipalitiesToDelete = array_keys(array_diff($electionMunicipalities, $requestMunicipalities));
+                if (!empty($municipalitiesToDelete)) {
+                    $election->municipalities()->whereIn('id', $municipalitiesToDelete)->delete();
+                }
+
+                $municipalitiesToAdd = array_diff($requestMunicipalities, $electionMunicipalities);
+                if (!empty($municipalitiesToAdd)) {
+                    $municipalitiesToSave = [];
+                    foreach ($municipalitiesToAdd as $value){
+                        array_push($municipalitiesToSave, new Municipality(['name' => $value]));
+                    }
+
+                    $election->municipalities()->saveMany($municipalitiesToSave);
+
+                    $defaultMunicipalities = DefaultMunicipality::whereIn('name', $municipalitiesToAdd)->get();
+                    foreach($defaultMunicipalities as $defaultMunicipality) {
+                        $defaultPollingStations = DefaultPollingStation::where('default_municipality_id', $defaultMunicipality->id)->get();
+                        if(!empty($defaultPollingStations)) {
+                            $pollingStations = [];
+
+                            foreach ($defaultPollingStations as $defaultPollingStation) {
+                                array_push($pollingStations, new PollingStation(['name' => $defaultPollingStation->name, 'registered_check' => $defaultPollingStation->registered]));
+                            }
+                            $municipality = $election->municipalities()->where('name', $defaultMunicipality->name)->first();
+                            $municipality->pollingStations()->saveMany($pollingStations);
+                        }
+                    }
+                }
+            }
             Session::flash('success', 'Elections have been successfully edited');
             return redirect()->route('elections.show', $election->id);
         } else {

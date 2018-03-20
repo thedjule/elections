@@ -16,7 +16,7 @@ class ElectoralListController extends Controller
      */
     public function index()
     {
-        $electoralLists = ElectoralList::orderBy('election_id')->paginate(20);
+        $electoralLists = ElectoralList::orderBy('election_id')->paginate(15);
         return view('manage.electoral_lists.index', compact('electoralLists'));
     }
 

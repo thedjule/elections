@@ -17662,3 +17662,13 @@ label.panel-block:hover {
   padding-right: 100px !important;
 }
 
+.municipality-col {
+  -webkit-column-width: 150px;
+  column-width: 150px;
+}
+
+.users-col {
+  -webkit-column-width: 200px;
+  column-width: 200px;
+}
+

@@ -39,4 +39,12 @@ class Municipality extends Model
     {
         return $this->belongsTo('App\Election');
     }
+
+    /**
+     * Get the User that is assigned to the Municipality.
+     */
+    public function user()
+    {
+        return $this->belongsTo('App\User');
+    }
 }

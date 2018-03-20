@@ -16,7 +16,7 @@ class CreatePollingStationsTable extends Migration
         Schema::create('polling_stations', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('municipality_id')->unsigned();
-            $table->integer('user_id')->unsigned();
+            $table->integer('user_id')->unsigned()->nullable();
 
             $table->string('name');
             $table->string('received_requests_via_letter');
@@ -32,7 +32,7 @@ class CreatePollingStationsTable extends Migration
             $table->string('registered');
             $table->string('registered_check');
             $table->string('voted_at_the_polling_station');
-            $table->string('voted_out_of_the_poling_station');
+            $table->string('voted_out_of_the_polling_station');
             $table->string('in_total');
             $table->string('valid_save');
             $table->timestamps();

@@ -65,8 +65,23 @@
                         </p>
                     @endif
                 </div>
-
                 <div class="field">
+                    <label class="label"><small>Municipalities:</small></label>
+                    <ul class="municipality-col">
+                        @foreach($municipalities as $municipality)
+                            <li><b-checkbox class="m-r-10" native-value="{{ $municipality->id }}:{{ $municipality->name }}" v-model="municipalities">{{ $municipality->name }}</b-checkbox></li>
+                        @endforeach
+                    </ul>
+                </div>
+                <div class="field">
+                <input type="hidden" name="municipalities" :value="municipalities">
+                @if ($errors->has('municipalities'))
+                    <p class="help is-danger">
+                        <strong>{{ $errors->first('municipalities') }}</strong>
+                    </p>
+                @endif
+                </div>
+                <div class="field m-t-30">
                     <p class="control">
                         <button type="submit" class="button is-primary">
                             <span>Create Elections</span>
@@ -76,4 +91,15 @@
             </form>
         </div>
     </div>
+@endsection
+
+@section('scripts')
+    <script>
+        let app = new Vue({
+            el: '#app',
+            data: {
+                municipalities: []
+            }
+        })
+    </script>
 @endsection

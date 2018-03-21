@@ -8,11 +8,11 @@
 
     <div class="columns">
         <div class="column">
-            <form action="{{route('polling-stations.update', $pollingStation->id)}}" method="post">
+            <form action="{{route('polling-stations.update', $pollingStation->id)}}" method="post" @keydown.enter.prevent>
                 @method('PUT')
                 @csrf
 
-                <div class="field">
+                <div class="field m-b-30">
                     <a class="button is-primary" @click="cardModal()">
                         <span>Assign a User</span>
                         <span class="icon is-small is-right">
@@ -332,10 +332,36 @@
                 user: {
                     type: Number,
                     default: {!! $userId !!}
+                },
+                users: {
+                    type: Array,
+                    default: function () {
+                        return {!! $users !!}
+                    }
                 }
             },
+            data() {
+                    return {
+                        userSearch: this.users,
+                        searchTxt: '',
+                        isLoading: false
+                    }
+            },
+            watch: {
+                searchTxt: _.debounce(function () {
+                    let thisModal = this
+                    this.userSearch = []
+                    this.isLoading = true
+                    this.users.find(function(element) {
+                        if(element.name.toLowerCase().search(thisModal.searchTxt.toLowerCase()) > -1) {
+                            thisModal.userSearch.push(element)
+                        }
+                    })
+                    this.isLoading = false
+                }, 1000)
+            },
             template: `
-                <form action="{{route('polling-stations.add-user', $pollingStation->id)}}" method="post">
+                <form action="{{route('polling-stations.add-user', $pollingStation->id)}}" method="post" @keydown.enter.prevent>
                     @method('PUT')
                     @csrf
                     <div class="modal-card" style="width: auto">
@@ -347,14 +373,16 @@
                                 <b-input placeholder="Search..."
                                     type="search"
                                     icon-pack="fa"
-                                    icon="search">
+                                    icon="search"
+                                    v-bind:loading="isLoading"
+                                    v-model="searchTxt">
                                 </b-input>
                             </b-field>
-                            @foreach($users as $user)
+                            <div v-for="userInfo in userSearch">
                                 <b-field>
-                                <b-radio name="user" native-value="{{ $user->id }}" v-bind:value="user">{{ $user->name }}</b-radio>
+                                    <b-radio name="user" v-bind:native-value="userInfo.id" v-bind:value="user">@{{ userInfo.name }}</b-radio>
                                 </b-field>
-                            @endforeach
+                            </div>
                         </section>
                         <footer class="modal-card-foot">
                             <button class="button" type="button" @click="$parent.close()">Close</button>

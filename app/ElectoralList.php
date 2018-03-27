@@ -34,6 +34,6 @@ class ElectoralList extends Model
 
     public function pollingStations()
     {
-        return $this->belongsToMany('App\PollingStation');
+        return $this->belongsToMany('App\PollingStation')->withPivot('votes');
     }
 }

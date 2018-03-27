@@ -3,7 +3,7 @@
 @section('content')
     <div class="content">
         <h2 class="has-text-centered">{{ $elections->name }}</h2>
-        <progress class="progress is-info is-small" value="15" max="100">30%</progress>
+        <progress class="progress is-info is-small" value="{{ $registered }}" max="{{ $registeredCheck }}">{{ $registeredPercent }}%</progress>
 
         <hr>
     </div>
@@ -12,26 +12,26 @@
     <nav class="level is-mobile">
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">Received</p>
-                <p class="title">0</p>
+                <p class="heading">Processed</p>
+                <p class="title">{{ $registered }} / {{ $registeredCheck }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">Valid</p>
-                <p class="title">0</p>
-            </div>
-        </div>
-        <div class="level-item has-text-centered">
-            <div>
-                <p class="heading">Registered</p>
-                <p class="title">0</p>
+                <p class="heading">%</p>
+                <p class="title">{{ $registeredPercent }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
                 <p class="heading">In Total</p>
-                <p class="title">0</p>
+                <p class="title">{{ $inTotal }}</p>
+            </div>
+        </div>
+        <div class="level-item has-text-centered">
+            <div>
+                <p class="heading">Valid</p>
+                <p class="title">{{ $valid }}</p>
             </div>
         </div>
     </nav>
@@ -46,19 +46,33 @@
             <th><small>In Total</small></th>
             <th><small>Valid</small></th>
             @foreach($elections->electoralLists as $electoralList)
-                <th class="has-text-weight-normal"><small>{{ $electoralList->name }}</small></th>
+                <th class="has-text-weight-bold">
+                    <small>{{ $electoralList->name }}</small>
+                </th>
             @endforeach
         </tr>
         </thead>
         <tbody>
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            @foreach($electoralListsPercent as $percent)
+                <td>
+                    <small>{{ $electoralListsSum[$loop->index] }}</small>
+                    <span class="tag is-text">{{ $percent }} %</span>
+                </td>
+            @endforeach
+        </tr>
         @foreach($elections->municipalities as $municipality)
             <tr>
                 <td><small><strong><a href="{{ route('results-municipality', $municipality->id) }}">{{$municipality->name}}</a></strong></small></td>
-                <td><small>0 / 0</small></td>
-                <td><small>0</small></td>
-                <td><small>0</small></td>
-                @foreach($elections->electoralLists as $electoralList)
-                    <td><small>0</small></td>
+                <td><small>{{ $municipality->pollingStations()->sum('registered') }} / {{ $municipality->pollingStations()->sum('registered_check') }}</small></td>
+                <td><small>{{ $municipality->pollingStations()->sum('in_total') }}</small></td>
+                <td><small>{{ $municipality->pollingStations()->sum('valid') }}</small></td>
+                @foreach($results[$municipality->id] as $listValue)
+                    <td><small>{{ $listValue }}</small></td>
                 @endforeach
             </tr>
         @endforeach

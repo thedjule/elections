@@ -30,7 +30,7 @@
                     <label class="label"><small>Received requests via letter:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('received_requests_via_letter') ? ' is-danger' : '' }}"
-                               name="received_requests_via_letter" value="{{ $pollingStation->received_requests_via_letter }}"
+                               name="received_requests_via_letter" value="{{ old('received_requests_via_letter', $pollingStation->received_requests_via_letter) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('received_requests_via_letter'))
                             <span class="icon is-small is-right">
@@ -49,7 +49,7 @@
                     <label class="label"><small>Voters allowed to vote by letter:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('voters_allowed_to_vote_by_letter') ? ' is-danger' : '' }}"
-                               name="voters_allowed_to_vote_by_letter" value="{{ $pollingStation->voters_allowed_to_vote_by_letter }}"
+                               name="voters_allowed_to_vote_by_letter" value="{{ old('voters_allowed_to_vote_by_letter', $pollingStation->voters_allowed_to_vote_by_letter) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('voters_allowed_to_vote_by_letter'))
                             <span class="icon is-small is-right">
@@ -68,7 +68,7 @@
                     <label class="label"><small>Voters not allowed to vote by letter:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('voters_not_allowed_to_vote_by_letter') ? ' is-danger' : '' }}"
-                               name="voters_not_allowed_to_vote_by_letter" value="{{ $pollingStation->voters_not_allowed_to_vote_by_letter }}"
+                               name="voters_not_allowed_to_vote_by_letter" value="{{ old('voters_not_allowed_to_vote_by_letter', $pollingStation->voters_not_allowed_to_vote_by_letter) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('voters_not_allowed_to_vote_by_letter'))
                             <span class="icon is-small is-right">
@@ -87,7 +87,7 @@
                     <label class="label"><small>Received:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('received') ? ' is-danger' : '' }}"
-                               name="received" value="{{ $pollingStation->received }}"
+                               name="received" value="{{ old('received', $pollingStation->received) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('received'))
                             <span class="icon is-small is-right">
@@ -106,7 +106,7 @@
                     <label class="label"><small>Unused:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('unused') ? ' is-danger' : '' }}"
-                               name="unused" value="{{ $pollingStation->unused }}"
+                               name="unused" value="{{ old('unused', $pollingStation->unused) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('unused'))
                             <span class="icon is-small is-right">
@@ -125,7 +125,7 @@
                     <label class="label"><small>Used:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('used') ? ' is-danger' : '' }}"
-                               name="used" value="{{ $pollingStation->used }}"
+                               name="used" value="{{ old('used', $pollingStation->used) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('used'))
                             <span class="icon is-small is-right">
@@ -144,7 +144,7 @@
                     <label class="label"><small>Control coupons:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('control_coupons') ? ' is-danger' : '' }}"
-                               name="control_coupons" value="{{ $pollingStation->control_coupons }}"
+                               name="control_coupons" value="{{ old('control_coupons', $pollingStation->control_coupons) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('control_coupons'))
                             <span class="icon is-small is-right">
@@ -163,7 +163,7 @@
                     <label class="label"><small>Trim confirmations:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('trim_confirmations') ? ' is-danger' : '' }}"
-                               name="trim_confirmations" value="{{ $pollingStation->trim_confirmations }}"
+                               name="trim_confirmations" value="{{ old('trim_confirmations', $pollingStation->trim_confirmations) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('trim_confirmations'))
                             <span class="icon is-small is-right">
@@ -182,7 +182,7 @@
                     <label class="label"><small>Valid:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('valid') ? ' is-danger' : '' }}"
-                               name="valid" value="{{ $pollingStation->valid }}"
+                               name="valid" value="{{ old('valid', $pollingStation->valid) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('valid'))
                             <span class="icon is-small is-right">
@@ -201,7 +201,7 @@
                     <label class="label"><small>Invalid:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('invalid') ? ' is-danger' : '' }}"
-                               name="invalid" value="{{ $pollingStation->invalid }}"
+                               name="invalid" value="{{ old('invalid', $pollingStation->invalid) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('invalid'))
                             <span class="icon is-small is-right">
@@ -221,7 +221,7 @@
                         <label class="label"><small>{{ $electoralList->number }}. {{ $electoralList->name }}:</small></label>
                         <div class="control has-icons-right">
                             <input type="text" class="input{{ $errors->has('list' . $loop->index) ? ' is-danger' : '' }}"
-                                   name="list[{{$electoralList->id}}]" value="{{ $electoralList->pivot->votes }}"
+                                   name="list[{{$electoralList->id}}]" value="{{ old('list.'. $electoralList->id, $electoralList->pivot->votes) }}"
                                    placeholder="" required autofocus>
                             @if ($errors->has('list' . $loop->index))
                                 <span class="icon is-small is-right">
@@ -238,10 +238,10 @@
                 @endforeach
 
                 <div class="field m-t-50">
-                    <label class="label"><small>Registered:</small></label>
+                    <label class="label"><small>Registered ({{ $pollingStation->registered_check }}):</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('registered') ? ' is-danger' : '' }}"
-                               name="registered" value="{{ $pollingStation->registered }}"
+                               name="registered" value="{{ old('registered', $pollingStation->registered) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('registered'))
                             <span class="icon is-small is-right">
@@ -260,7 +260,7 @@
                     <label class="label"><small>Voted at the polling station:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('voted_at_the_polling_station') ? ' is-danger' : '' }}"
-                               name="voted_at_the_polling_station" value="{{ $pollingStation->voted_at_the_polling_station }}"
+                               name="voted_at_the_polling_station" value="{{ old('voted_at_the_polling_station', $pollingStation->voted_at_the_polling_station) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('voted_at_the_polling_station'))
                             <span class="icon is-small is-right">
@@ -279,7 +279,7 @@
                     <label class="label"><small>Voted out of the polling station:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('voted_out_of_the_polling_station') ? ' is-danger' : '' }}"
-                               name="voted_out_of_the_polling_station" value="{{ $pollingStation->voted_out_of_the_polling_station }}"
+                               name="voted_out_of_the_polling_station" value="{{ old('voted_out_of_the_polling_station', $pollingStation->voted_out_of_the_polling_station) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('voted_out_of_the_polling_station'))
                             <span class="icon is-small is-right">
@@ -298,7 +298,7 @@
                     <label class="label"><small>In total:</small></label>
                     <div class="control has-icons-right">
                         <input type="text" class="input{{ $errors->has('in_total') ? ' is-danger' : '' }}"
-                               name="in_total" value="{{ $pollingStation->in_total }}"
+                               name="in_total" value="{{ old('in_total', $pollingStation->in_total) }}"
                                placeholder="" required autofocus>
                         @if ($errors->has('in_total'))
                             <span class="icon is-small is-right">
@@ -312,6 +312,17 @@
                         </p>
                     @endif
                 </div>
+
+                <div class="field">
+                    <div class="control m-t-30 m-b-40">
+                        <label class="checkbox">
+                            <input type="checkbox" name="valid_save" value="1">
+                            Skip validation and save inconsistent results with SEC or MEC confirmation
+                        </label>
+                    </div>
+                </div>
+
+                <input type="hidden" name="registered_check" :value="{{ $pollingStation->registered_check }}">
 
                 <div class="field m-t-30">
                     <p class="control">

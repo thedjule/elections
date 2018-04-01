@@ -51,7 +51,12 @@
                 <div class="tags has-addons">
                     <a class="tag" href="{{route('municipalities.show', $municipality->id)}}">{{ $municipality->name }}</a>
                     @if($municipality->user_id)
-                        <a class="tag is-success" href="{{route('users.show', $municipality->user_id)}}">{{ $municipality->user->name }}</a>
+                        <a class="tag is-success" href="{{route('users.show', $municipality->user_id)}}">
+                            <span class="icon">
+                              <i class="fa fa-user"></i>
+                            </span>
+                            <span>{{ $municipality->user->name }}</span>
+                        </a>
                     @else
                         <a class="tag is-warning">No User</a>
                     @endif

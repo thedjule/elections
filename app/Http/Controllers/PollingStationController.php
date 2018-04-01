@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\ElectoralList;
+use App\Http\Requests\UpdatePollingStation;
 use App\PollingStation;
 use App\User;
 use Illuminate\Http\Request;
@@ -102,30 +103,33 @@ class PollingStationController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdatePollingStation $request, $id)
     {
-        // Validation
+        $validated = $request->validated();
 
         $pollingStation = PollingStation::findOrFail($id);
 
-        $pollingStation->received_requests_via_letter = $request->received_requests_via_letter;
-        $pollingStation->voters_allowed_to_vote_by_letter = $request->voters_allowed_to_vote_by_letter;
-        $pollingStation->voters_not_allowed_to_vote_by_letter = $request->voters_not_allowed_to_vote_by_letter;
-        $pollingStation->received = $request->received;
-        $pollingStation->unused = $request->unused;
-        $pollingStation->used = $request->used;
-        $pollingStation->control_coupons = $request->control_coupons;
-        $pollingStation->trim_confirmations = $request->trim_confirmations;
-        $pollingStation->valid = $request->valid;
-        $pollingStation->invalid = $request->invalid;
-        $pollingStation->registered = $request->registered;
-        $pollingStation->voted_at_the_polling_station = $request->voted_at_the_polling_station;
-        $pollingStation->voted_out_of_the_polling_station = $request->voted_out_of_the_polling_station;
-        $pollingStation->in_total = $request->in_total;
-        $pollingStation->valid_save = 2;
+        $pollingStation->received_requests_via_letter = $validated['received_requests_via_letter'];
+        $pollingStation->voters_allowed_to_vote_by_letter = $validated['voters_allowed_to_vote_by_letter'];
+        $pollingStation->voters_not_allowed_to_vote_by_letter = $validated['voters_not_allowed_to_vote_by_letter'];
+        $pollingStation->received = $validated['received'];
+        $pollingStation->unused = $validated['unused'];
+        $pollingStation->used = $validated['used'];
+        $pollingStation->control_coupons = $validated['control_coupons'];
+        $pollingStation->trim_confirmations = $validated['trim_confirmations'];
+        $pollingStation->valid = $validated['valid'];
+        $pollingStation->invalid = $validated['invalid'];
+        $pollingStation->registered = $validated['registered'];
+        $pollingStation->voted_at_the_polling_station = $validated['voted_at_the_polling_station'];
+        $pollingStation->voted_out_of_the_polling_station = $validated['voted_out_of_the_polling_station'];
+        $pollingStation->in_total = $validated['in_total'];
+        if(empty($request->get('valid_save')))
+            $pollingStation->valid_save = 2;
+        else
+            $pollingStation->valid_save = 1;
 
         $electoralLists = [];
-        foreach($request->list as $pollingStationId => $votes) {
+        foreach($validated['list'] as $pollingStationId => $votes) {
             $electoralLists[$pollingStationId] = ['votes' => $votes];
         }
 

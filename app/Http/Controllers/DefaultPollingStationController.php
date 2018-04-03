@@ -17,7 +17,7 @@ class DefaultPollingStationController extends Controller
     public function index()
     {
 //        $pollingStations = DefaultPollingStation::with('defaultMunicipality')->orderBy('default_municipality_id')->get();
-        $pollingStations = DefaultPollingStation::orderBy('default_municipality_id')->paginate(10);
+        $pollingStations = DefaultPollingStation::orderBy('default_municipality_id')->paginate(20);
         return view('manage.default_polling_stations.index', compact('pollingStations'));
     }
 

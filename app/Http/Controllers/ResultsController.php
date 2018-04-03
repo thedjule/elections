@@ -83,10 +83,14 @@ class ResultsController extends Controller
 
         $registeredPercent = ($registered / $registeredCheck) * 100;
         $registeredPercent = number_format($registeredPercent, 2, ',', ' ');
+        $inTotalPercent = ($inTotal / $registered) * 100;
+        $inTotalPercent = number_format($inTotalPercent, 2, ',', ' ');
+        $validPercent = ($valid / $inTotal) * 100;
+        $validPercent = number_format($validPercent, 2, ',', ' ');
 
         return view('results.elections',
             compact('elections', 'results', 'registered', 'registeredCheck', 'inTotal', 'valid',
-                'registeredPercent', 'electoralListsSum', 'electoralListsPercent'
+                'registeredPercent', 'electoralListsSum', 'electoralListsPercent', 'inTotalPercent', 'validPercent'
             ));
     }
 

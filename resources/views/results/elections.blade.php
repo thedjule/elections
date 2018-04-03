@@ -8,29 +8,22 @@
         <hr>
     </div>
 
-
     <nav class="level is-mobile">
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">Processed</p>
+                <p class="heading">Processed {{ $registeredPercent }}%</p>
                 <p class="title">{{ $registered }} / {{ $registeredCheck }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">%</p>
-                <p class="title">{{ $registeredPercent }}</p>
-            </div>
-        </div>
-        <div class="level-item has-text-centered">
-            <div>
-                <p class="heading">In Total</p>
+                <p class="heading">In Total {{ $inTotalPercent }}%</p>
                 <p class="title">{{ $inTotal }}</p>
             </div>
         </div>
         <div class="level-item has-text-centered">
             <div>
-                <p class="heading">Valid</p>
+                <p class="heading">Valid {{ $validPercent }}%</p>
                 <p class="title">{{ $valid }}</p>
             </div>
         </div>

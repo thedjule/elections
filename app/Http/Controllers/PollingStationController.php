@@ -8,9 +8,20 @@ use App\PollingStation;
 use App\User;
 use Illuminate\Http\Request;
 use Session;
+use Auth;
 
 class PollingStationController extends Controller
 {
+    /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('role:superadministrator|administrator');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -63,17 +74,24 @@ class PollingStationController extends Controller
     public function edit($id)
     {
         $pollingStation = PollingStation::findOrFail($id);
-        if ($pollingStation->electoralLists->isEmpty()) {
-            $electoralLists = ElectoralList::where('election_id', $pollingStation->municipality->election->id)->get();
-            $pollingStation->electoralLists()->sync($electoralLists);
-            return redirect()->route('polling-stations.edit', $pollingStation->id);
+
+        if (Auth::user()->owns($pollingStation->municipality, 'user_id')) {
+            if ($pollingStation->electoralLists->isEmpty()) {
+                $electoralLists = ElectoralList::where('election_id', $pollingStation->municipality->election->id)->get();
+                $pollingStation->electoralLists()->sync($electoralLists);
+                return redirect()->route('polling-stations.edit', $pollingStation->id);
+            }
+            $electoralLists = $pollingStation->electoralLists;
+            $users = User::whereHas('roles', function ($q) {
+                $q->where('name', 'user');
+            })->get();
+            if (!$userId = $pollingStation->user_id) $userId = '-1';
+            return view('manage.elections.polling_stations.edit', compact('pollingStation', 'electoralLists', 'users', 'userId'));
+        } else {
+            return redirect()->route('manage.dashboard');
         }
-        $electoralLists = $pollingStation->electoralLists;
-        $users = User::whereHas('roles', function ($q) {
-            $q->where('name', 'user');
-        })->get();
-        if (!$userId = $pollingStation->user_id) $userId = '-1';
-        return view('manage.elections.polling_stations.edit', compact('pollingStation', 'electoralLists', 'users', 'userId'));
+
+
     }
 
     /**

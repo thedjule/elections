@@ -20,6 +20,7 @@ Auth::routes();
 Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|administrator|user'], function () {
     Route::get('/', ['as' => 'manage', 'uses' => 'ManageController@index']);
     Route::get('/dashboard', ['as' => 'manage.dashboard', 'uses' => 'ManageController@dashboard']);
+    Route::get('/report', ['as' => 'manage.report', 'uses' => 'MunicipalityController@viewReport']);
     Route::resource('/users', 'UserController');
     Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
     Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);

@@ -10,13 +10,22 @@ use Session;
 class DefaultPollingStationController extends Controller
 {
     /**
+     * Create a new controller instance.
+     *
+     * @return void
+     */
+    public function __construct()
+    {
+        $this->middleware('role:superadministrator');
+    }
+
+    /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
     public function index()
     {
-//        $pollingStations = DefaultPollingStation::with('defaultMunicipality')->orderBy('default_municipality_id')->get();
         $pollingStations = DefaultPollingStation::orderBy('default_municipality_id')->paginate(20);
         return view('manage.default_polling_stations.index', compact('pollingStations'));
     }

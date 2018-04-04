@@ -24,7 +24,7 @@ class CreateElectoralListPollingStation extends Migration
                 ->references('id')->on('polling_stations')
                 ->onDelete('cascade');
 
-            $table->integer('votes');
+            $table->integer('votes')->nullable();
             $table->timestamps();
         });
     }

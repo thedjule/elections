@@ -19,10 +19,12 @@
         <section class="section">
             <div class="container">
                 <div class="columns">
-                    <div class="column is-one-quarter">
-                        @include('_includes.navigation.manage')
-                    </div>
-                    <div class="column is-three-quarters">
+                    @if (Auth::user()->hasRole('superadministrator'))
+                        <div class="column is-one-quarter">
+                            @include('_includes.navigation.manage')
+                        </div>
+                    @endif
+                    <div class="column">
                         @yield('content')
                     </div>
                 </div>

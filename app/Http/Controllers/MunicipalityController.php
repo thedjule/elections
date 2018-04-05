@@ -129,7 +129,7 @@ class MunicipalityController extends Controller
      */
     public function viewReport()
     {
-        if(Auth::user()->hasRole('superadministrator|administrator')) {
+        if(Auth::user()->hasRole('administrator')) {
             $municipality = Municipality::where('user_id', Auth::id())->first();
             if($municipality) {
 

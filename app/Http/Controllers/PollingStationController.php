@@ -75,7 +75,7 @@ class PollingStationController extends Controller
     {
         $pollingStation = PollingStation::findOrFail($id);
 
-        if (Auth::user()->owns($pollingStation->municipality, 'user_id')) {
+        if (Auth::user()->owns($pollingStation->municipality, 'user_id') or Auth::user()->hasRole('superadministrator')) {
             if ($pollingStation->electoralLists->isEmpty()) {
                 $electoralLists = ElectoralList::where('election_id', $pollingStation->municipality->election->id)->get();
                 $pollingStation->electoralLists()->sync($electoralLists);

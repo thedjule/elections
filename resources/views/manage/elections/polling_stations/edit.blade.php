@@ -12,19 +12,21 @@
                 @method('PUT')
                 @csrf
 
-                <div class="field m-b-30">
-                    <a class="button is-primary" @click="cardModal()">
-                        <span>Assign a User</span>
-                        <span class="icon is-small is-right">
-                            <i class="fa fa-user-circle-o"></i>
-                        </span>
-                    </a>
-                    @if($pollingStation->user)
-                        <span class="button is-text">
-                            <span>{{ $pollingStation->user->name }}</span>
-                        </span>
-                    @endif
-                </div>
+                @if (Auth::user()->hasRole('superadministrator'))
+                    <div class="field m-b-30">
+                        <a class="button is-primary" @click="cardModal()">
+                            <span>Assign a User</span>
+                            <span class="icon is-small is-right">
+                                <i class="fa fa-user-circle-o"></i>
+                            </span>
+                        </a>
+                        @if($pollingStation->user)
+                            <span class="button is-text">
+                                <span>{{ $pollingStation->user->name }}</span>
+                            </span>
+                        @endif
+                    </div>
+                @endif
 
                 <div class="field">
                     <label class="label"><small>Received requests via letter:</small></label>

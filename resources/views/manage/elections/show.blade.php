@@ -9,6 +9,16 @@
 
         <!-- Right side -->
         <div class="level-right">
+            @if($election->status == 2)
+                <div class="level-item">
+                    <a class="button is-light" href="{{route('manage.report-elections', $election->id)}}">
+                        <span class="icon">
+                            <i class="fa fa-database"></i>
+                        </span>
+                        <span>View Elections Report</span>
+                    </a>
+                </div>
+            @endif
             <div class="level-item">
                 <a class="button is-info" href="{{route('elections.edit', $election->id)}}">
                     <span class="icon">

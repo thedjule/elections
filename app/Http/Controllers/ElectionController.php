@@ -6,6 +6,7 @@ use App\DefaultMunicipality;
 use App\DefaultPollingStation;
 use App\Election;
 use App\ElectionType;
+use App\ElectoralList;
 use App\Municipality;
 use App\PollingStation;
 use Illuminate\Http\Request;
@@ -200,5 +201,19 @@ class ElectionController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * Save csv file of Elections results
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function report($id)
+    {
+        $municipalities = Municipality::where('election_id', $id)->get();
+        $electoralLists = ElectoralList::where('election_id', $id)->get();
+
+        return view('manage.elections.report', compact('municipalities', 'electoralLists'));
     }
 }

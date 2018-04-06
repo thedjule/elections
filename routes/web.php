@@ -21,6 +21,7 @@ Route::group(['prefix' => '/manage', 'middleware' => 'role:superadministrator|ad
     Route::get('/', ['as' => 'manage', 'uses' => 'ManageController@index']);
     Route::get('/dashboard', ['as' => 'manage.dashboard', 'uses' => 'ManageController@dashboard']);
     Route::get('/report', ['as' => 'manage.report', 'uses' => 'MunicipalityController@viewReport']);
+    Route::get('/report-elections/{elections}', ['as' => 'manage.report-elections', 'uses' => 'ElectionController@report']);
     Route::resource('/users', 'UserController');
     Route::resource('/roles', 'RoleController', ['except' => 'destroy']);
     Route::resource('/permissions', 'PermissionController', ['except' => 'destroy']);
